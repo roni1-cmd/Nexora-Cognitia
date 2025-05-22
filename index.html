@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nexora - AI Chatbot</title>
+    <title>Nexora Cognitia</title>
     <link rel="icon" href="Nexora Crescent.png">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
@@ -1775,7 +1775,16 @@
                 if (conversation.id === currentConversationId) {
                     conversationItem.classList.add('active');
                 }
-const date = conversation.updatedAt.toDate();              const formattedDate = date.toLocaleDateString();
+if (!conversation.updatedAt.seconds || isNaN(conversation.updatedAt.seconds)) {
+  conversation.updatedAt.seconds = Math.floor(Date.now() / 1000);
+}
+
+if (conversation.updatedAt.seconds && !isNaN(conversation.updatedAt.seconds)) {
+  const date = new Date(conversation.updatedAt.seconds * 1000);
+  formattedDate = date.toLocaleDateString();
+} else {
+  formattedDate = "Invalid date";
+}
                 
                 conversationItem.innerHTML = `
                     <div class="conversation-icon">
