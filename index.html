@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nexora - AI Chatbot</title>
+    <title>Nexora Cognitia</title>
     <link rel="icon" href="Nexora.png">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
         :root {
             --primary-color: #6a11cb;
@@ -153,10 +154,15 @@
             display: flex;
             align-items: center;
             padding: 20px;
-            border-bottom: 1px solid var(--border-color);
             position: relative;
             z-index: 1;
             flex-shrink: 0;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .sidebar-header:hover {
+            background-color: var(--sidebar-hover);
         }
 
         .user-avatar {
@@ -171,6 +177,7 @@
             font-weight: bold;
             margin-right: 10px;
             overflow: hidden;
+            position: relative;
         }
 
         .user-avatar img {
@@ -211,7 +218,7 @@
             display: flex;
             align-items: center;
             cursor: pointer;
-            transition: background-color 0.2s;
+            transition: all 0.3s ease;
             position: relative;
             z-index: 1;
             border-radius: 0 25px 25px 0;
@@ -220,6 +227,7 @@
 
         .sidebar-item:hover {
             background-color: var(--sidebar-hover);
+            transform: translateX(5px);
         }
 
         .sidebar-item.active {
@@ -228,16 +236,18 @@
         }
 
         .sidebar-item-icon {
-            margin-right: 10px;
-            width: 20px;
-            height: 20px;
+            margin-right: 12px;
+            width: 24px;
+            height: 24px;
             display: flex;
             align-items: center;
             justify-content: center;
+            color: var(--primary-color);
         }
 
         .sidebar-item-text {
             flex: 1;
+            font-weight: 500;
         }
 
         .sidebar-item-badge {
@@ -249,13 +259,15 @@
         }
 
         .sidebar-divider {
-            height: 1px;
-            background-color: var(--border-color);
-            margin: 10px 0;
+            height: 20px;
             position: relative;
             z-index: 1;
             flex-shrink: 0;
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
+
+     
 
         .conversations-container {
             flex: 1;
@@ -282,11 +294,55 @@
             background-color: var(--primary-color);
         }
 
-        .sidebar-footer {
-            padding: 10px 0;
-            border-top: 1px solid var(--border-color);
-            flex-shrink: 0;
+    .sidebar-footer {
+    display: flex !important;
+    opacity: 1 !important;
+    transform: none !important;
+    visibility: visible !important;
+}
+
+      .sidebar-footer.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+      .new-features-section {
+            margin: 16px 12px;
+            padding: 16px;
+            background: linear-gradient(135deg, rgba(106, 17, 203, 0.1), rgba(37, 117, 252, 0.1));
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
         }
+
+         .new-features-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-color);
+        }
+
+    .new-features-list {
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+
+      .new-features-item {
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }   
+            .new-features-item::before {
+            content: "•";
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
 
         .main-content {
             flex: 1;
@@ -327,6 +383,11 @@
             background-clip: text;
             color: transparent;
             font-weight: 600;
+            transition: all 0.3s ease;
+            max-width: 300px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
 
         .header-actions {
@@ -542,6 +603,8 @@
             background-color: var(--bg-color);
             scrollbar-width: thin;
             scrollbar-color: var(--border-color) transparent;
+            display: flex;
+            flex-direction: column-reverse;
         }
 
         .chat-messages::-webkit-scrollbar {
@@ -561,11 +624,28 @@
             background-color: var(--primary-color);
         }
 
+        .messages-container {
+            display: flex;
+            flex-direction: column;
+        }
+
         .message {
             margin-bottom: 15px;
             display: flex;
             align-items: flex-start;
             position: relative;
+            animation: fadeInUp 0.3s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .message-content {
@@ -991,7 +1071,7 @@
             display: flex;
             align-items: center;
             cursor: pointer;
-            transition: background-color 0.2s;
+            transition: all 0.3s ease;
             border-radius: 0 25px 25px 0;
             margin-right: 10px;
             position: relative;
@@ -999,6 +1079,7 @@
 
         .conversation-item:hover {
             background-color: var(--sidebar-hover);
+            transform: translateX(5px);
         }
 
         .conversation-item.active {
@@ -1007,12 +1088,13 @@
         }
 
         .conversation-icon {
-            margin-right: 10px;
-            width: 20px;
-            height: 20px;
+            margin-right: 12px;
+            width: 24px;
+            height: 24px;
             display: flex;
             align-items: center;
             justify-content: center;
+            color: var(--primary-color);
         }
 
         .conversation-title {
@@ -1168,6 +1250,47 @@
             border: none;
         }
 
+        .profile-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background-color: var(--bg-color);
+            border-radius: 15px;
+            box-shadow: var(--box-shadow);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            z-index: 1002;
+            margin-top: 10px;
+        }
+
+        .profile-dropdown.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .profile-dropdown-item {
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            border-radius: 10px;
+            margin: 5px;
+        }
+
+        .profile-dropdown-item:hover {
+            background-color: var(--sidebar-hover);
+        }
+
+        .profile-dropdown-item .material-icons {
+            margin-right: 10px;
+            color: var(--primary-color);
+        }
+
         @media (max-width: 768px) {
             .sidebar {
                 transform: translateX(-100%);
@@ -1249,7 +1372,7 @@
         <div class="sidebar-overlay" id="sidebar-overlay"></div>
         
         <div class="sidebar" id="sidebar">
-            <div class="sidebar-header">
+            <div class="sidebar-header" id="sidebar-header">
                 <div class="user-avatar" id="sidebar-avatar">
                     <img src="Nexora.png" alt="Nexora Logo" id="user-profile-pic">
                 </div>
@@ -1257,16 +1380,25 @@
                     <div class="user-name" id="user-display-name">nexora</div>
                     <div class="user-status" id="user-status">Free Planning</div>
                 </div>
+                
+                <!-- Profile dropdown -->
+                <div class="profile-dropdown" id="profile-dropdown">
+                    <div class="profile-dropdown-item" id="profile-settings">
+                        <span class="material-icons">settings</span>
+                        <span>Settings</span>
+                    </div>
+                    <div class="profile-dropdown-item" id="profile-logout">
+                        <span class="material-icons">logout</span>
+                        <span>Sign Out</span>
+                    </div>
+                </div>
             </div>
             
             <div class="sidebar-sections">
                 <div class="sidebar-nav">
                     <div class="sidebar-item active" id="new-chat-btn">
                         <div class="sidebar-item-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
-                            </svg>
+                            <span class="material-icons">add_circle_outline</span>
                         </div>
                         <div class="sidebar-item-text">New chat</div>
                     </div>
@@ -1278,26 +1410,39 @@
                     <!-- Conversation history will be added here -->
                 </div>
                 
-                <div class="sidebar-footer">
-                    <div class="sidebar-item" id="search-btn">
-                        <div class="sidebar-item-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
-                            </svg>
-                        </div>
-                        <div class="sidebar-item-text">Search</div>
+        <div class="sidebar-footer">
+
+    <div class="sidebar-item" id="login-btn">
+        <div class="sidebar-item-icon">
+            <span class="material-icons">person</span>
+        </div>
+        <div class="sidebar-item-text">Sign In</div>
+    </div>
+</div>
+                
+                <!-- New Features Section -->
+           <div class="new-features-section" id="new-features-section">
+                    <div class="new-features-title">
+                        <span class="material-icons" style="font-size: 16px;">new_releases</span>
+                        What's New
                     </div>
-                    
-                    <div class="sidebar-divider"></div>
-                    
-                    <div class="sidebar-item" id="login-btn">
-                        <div class="sidebar-item-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                                <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
-                                <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
-                            </svg>
+                    <div class="new-features-list">
+                        <div class="new-features-item">
+                            <span class="material-icons" style="font-size: 12px;">speed</span>
+                            Initial prompt improvements
                         </div>
-                        <div class="sidebar-item-text">Sign In</div>
+                        <div class="new-features-item">
+                            <span class="material-icons" style="font-size: 12px;">person</span>
+                            Profile button - BETA
+                        </div>
+                        <div class="new-features-item">
+                            <span class="material-icons" style="font-size: 12px;">edit</span>
+                            Edit message feature
+                        </div>
+                        <div class="new-features-item">
+                            <span class="material-icons" style="font-size: 12px;">save</span>
+                            Auto-save conversations
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1307,24 +1452,17 @@
             <div class="header">
                 <div class="logo">
                     <button class="sidebar-toggle" id="sidebar-toggle">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
-                            <path d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
-                        </svg>
+                        <span class="material-icons">menu</span>
                     </button>
-                    <h1>nexora</h1>
+                    <h1 id="header-title">nexora</h1>
                 </div>
                 <div class="header-actions">
                     <div class="credit-icon" id="credit-icon">
-<div class="credit-icon" id="credit-icon">
-<img src="Credits.png" alt="Gem Star Credit Icon" width="50" height="50"></div>
+                        <img src="Credits.png" alt="Gem Star Credit Icon" width="50" height="50">
                     </div>
                     <div class="theme-toggle" id="theme-toggle">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" class="sun-icon">
-                            <path d="M8 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6zm0 1a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z"/>
-                        </svg>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" class="moon-icon">
-                            <path d="M6 .278a.768.768 0 0 1 .08.858 7.208 7.208 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277.527 0 1.04-.055 1.533-.16a.787.787 0 0 1 .81.316.733.733 0 0 1-.031.893A8.349 8.349 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.752.752 0 0 1 6 .278z"/>
-                        </svg>
+                        <span class="material-icons" style="font-size: 12px;">wb_sunny</span>
+                        <span class="material-icons" style="font-size: 12px;">nights_stay</span>
                     </div>
                 </div>
                 
@@ -1356,7 +1494,9 @@
                 </div>
 
                 <div class="chat-messages" id="chat-messages">
-                    <!-- Chat messages will be added here -->
+                    <div class="messages-container" id="messages-container">
+                        <!-- Chat messages will be added here -->
+                    </div>
                 </div>
 
                 <div class="input-container">
@@ -1364,20 +1504,13 @@
                         <input type="text" id="user-input" placeholder="Ask nexora something..." autocomplete="off">
                         <div class="input-buttons">
                             <button id="regenerate-button">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                                    <path d="M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41zm-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9z"/>
-                                    <path fill-rule="evenodd" d="M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5.002 5.002 0 0 0 8 3zM3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9H3.1z"/>
-                                </svg>
+                                <span class="material-icons" style="font-size: 16px;">refresh</span>
                             </button>
                             <button id="stop-button">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                                    <path d="M5 3.5h6A1.5 1.5 0 0 1 12.5 5v6a1.5 1.5 0 0 1-1.5 1.5H5A1.5 1.5 0 0 1 3.5 11V5A1.5 1.5 0 0 1 5 3.5z"/>
-                                </svg>
+                                <span class="material-icons" style="font-size: 16px;">stop</span>
                             </button>
                             <button id="send-button">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                                    <path d="M15.964.686a.5.5 0 0 0-.65-.65L.767 5.855H.766l-.452.18a.5.5 0 0 0-.082.887l.41.26.001.002 4.995 3.178 3.178 4.995.002.002.26.41a.5.5 0 0 0 .886-.083l6-15Zm-1.833 1.89L6.637 10.07l-.215-.338a.5.5 0 0 0-.154-.154l-.338-.215 7.494-7.494 1.178-.471-.47 1.178Z"/>
-                                </svg>
+                                <span class="material-icons" style="font-size: 16px;">send</span>
                             </button>
                         </div>
                     </div>
@@ -1480,7 +1613,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const sidebar = document.getElementById('sidebar');
     const sidebarToggle = document.getElementById('sidebar-toggle');
     const sidebarOverlay = document.getElementById('sidebar-overlay');
+    const sidebarHeader = document.getElementById('sidebar-header');
+    const profileDropdown = document.getElementById('profile-dropdown');
+    const profileLogout = document.getElementById('profile-logout');
     const chatMessages = document.getElementById('chat-messages');
+    const messagesContainer = document.getElementById('messages-container');
     const userInput = document.getElementById('user-input');
     const sendButton = document.getElementById('send-button');
     const stopButton = document.getElementById('stop-button');
@@ -1498,11 +1635,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const userProfilePic = document.getElementById('user-profile-pic');
     const conversationsContainer = document.getElementById('conversations-container');
     const newChatBtn = document.getElementById('new-chat-btn');
-    const searchBtn = document.getElementById('search-btn');
-    const searchModal = document.getElementById('search-modal');
-    const searchModalClose = document.getElementById('search-modal-close');
-    const searchInput = document.getElementById('search-input');
-    const searchResults = document.getElementById('search-results');
     const popupMessage = document.getElementById('popup-message');
     const popupClose = document.getElementById('popup-close');
     const toast = document.getElementById('toast');
@@ -1519,40 +1651,72 @@ document.addEventListener('DOMContentLoaded', () => {
     const editPromptTextarea = document.getElementById('edit-prompt-textarea');
     const editCancel = document.getElementById('edit-cancel');
     const editSave = document.getElementById('edit-save');
+    const headerTitle = document.getElementById('header-title');
+    const newFeaturesSection = document.getElementById('new-features-section');
     
     // App state
     let isGenerating = false;
     let shouldStop = false;
     let currentMessageElement = null;
-    let typingSpeed = 30; // Default typing speed in ms
+    let typingSpeed = 30;
     let currentUser = null;
     let anonymousPromptCount = 0;
     let currentConversationId = null;
     let conversations = [];
-    let anonymousAuthEnabled = true; // Will be set to false if anonymous auth fails
-    let lastUserMessage = ''; // Store the last user message for regeneration
-    let allMessages = []; // Store all messages for search functionality
-    let initialPrompt = ''; // Store the initial prompt for title change
-    let currentEditingMessageId = null; // Store the ID of the message being edited
+    let anonymousAuthEnabled = true;
+    let lastUserMessage = '';
+    let allMessages = [];
+    let initialPrompt = '';
+    let currentEditingMessageId = null;
     
     // Credit system
-    const ANONYMOUS_MAX_CREDITS = 6; // Anonymous users get 6 credits
-    const SIGNED_IN_MAX_CREDITS = 10; // Signed-in users get $10
-    let userCredits = ANONYMOUS_MAX_CREDITS; // Default to anonymous credits
-    let creditsUsed = 0; // Amount used
-    let lastCreditReset = new Date(); // Last credit reset date
-    let lowCreditWarningShown = false; // Track if low credit warning has been shown
-    let isAnonymous = true; // Track if user is anonymous
-    let firestoreAvailable = true; // Track if Firestore is available
+    const ANONYMOUS_MAX_CREDITS = 6;
+    const SIGNED_IN_MAX_CREDITS = 10;
+    let userCredits = ANONYMOUS_MAX_CREDITS;
+    let creditsUsed = 0;
+    let lastCreditReset = new Date();
+    let lowCreditWarningShown = false;
+    let isAnonymous = true;
+    let firestoreAvailable = true;
+
+    // Load conversation from URL on page load
+    function loadConversationFromURL() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const conversationId = urlParams.get('conversation');
+        if (conversationId) {
+            currentConversationId = conversationId;
+            loadConversation(conversationId);
+        }
+    }
+
+    // Update URL when conversation changes
+    function updateURL(conversationId) {
+        if (conversationId) {
+            const newURL = `${window.location.pathname}?conversation=${conversationId}`;
+            window.history.replaceState({ conversationId }, '', newURL);
+        } else {
+            window.history.replaceState({}, '', window.location.pathname);
+        }
+    }
 
     // Update document title based on initial prompt
     function updateDocumentTitle(prompt) {
         if (prompt && prompt.length > 0) {
-            // Limit title length
             const titleText = prompt.length > 30 ? prompt.substring(0, 30) + '...' : prompt;
             document.title = `${titleText} - Nexora`;
+            
+            headerTitle.style.opacity = '0';
+            setTimeout(() => {
+                headerTitle.textContent = titleText;
+                headerTitle.style.opacity = '1';
+            }, 150);
         } else {
             document.title = 'Nexora - AI Chatbot';
+            headerTitle.style.opacity = '0';
+            setTimeout(() => {
+                headerTitle.textContent = 'nexora';
+                headerTitle.style.opacity = '1';
+            }, 150);
         }
     }
 
@@ -1565,9 +1729,34 @@ document.addEventListener('DOMContentLoaded', () => {
             appContainer.classList.toggle('sidebar-expanded');
         }
     }
+    const featuresSection = document.getElementById('new-features-section');
 
     sidebarToggle.addEventListener('click', toggleSidebar);
     sidebarOverlay.addEventListener('click', toggleSidebar);
+
+    // Profile dropdown functionality
+    sidebarHeader.addEventListener('click', (e) => {
+        e.stopPropagation();
+        profileDropdown.classList.toggle('active');
+    });
+
+    // Close profile dropdown when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!sidebarHeader.contains(e.target)) {
+            profileDropdown.classList.remove('active');
+        }
+    });
+
+    // Profile logout handler
+    profileLogout.addEventListener('click', () => {
+        if (currentUser && !currentUser.isAnonymous) {
+            logoutPopup.classList.add('active');
+        } else {
+            popupMessage.textContent = 'Sign in to experience Nexora Cognitia with unlimited access.';
+            loginPopup.classList.add('active');
+        }
+        profileDropdown.classList.remove('active');
+    });
 
     // Initialize sidebar state based on screen size
     function initSidebar() {
@@ -1591,12 +1780,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Credit icon click handler
     creditIcon.addEventListener('click', () => {
-        // Force update before showing
         forceUpdateCreditDisplay();
-        
         creditPopup.classList.toggle('active');
         
-        // Auto-hide after 5 seconds
         setTimeout(() => {
             creditPopup.classList.remove('active');
         }, 5000);
@@ -1613,25 +1799,16 @@ document.addEventListener('DOMContentLoaded', () => {
     function forceUpdateCreditDisplay() {
         const remainingCredits = userCredits - creditsUsed;
         
-        // Update the credit amount display
         const creditAmountElement = document.getElementById('credit-amount');
         if (creditAmountElement) {
             creditAmountElement.textContent = remainingCredits.toFixed(isAnonymous ? 0 : 2);
         }
         
-        // Update the credit bar fill
         const creditBarFillElement = document.getElementById('credit-bar-fill');
         if (creditBarFillElement) {
             const percentage = (remainingCredits / userCredits) * 100;
             creditBarFillElement.style.width = `${percentage}%`;
         }
-        
-        console.log('Forced credit display update:', {
-            remainingCredits,
-            percentage: (remainingCredits / userCredits) * 100,
-            element: creditAmountElement ? 'found' : 'not found',
-            barElement: creditBarFillElement ? 'found' : 'not found'
-        });
     }
 
     // Update credit bar
@@ -1639,22 +1816,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const remainingCredits = userCredits - creditsUsed;
         const percentage = (remainingCredits / userCredits) * 100;
         
-        console.log('Updating credit bar:', {
-            userCredits,
-            creditsUsed,
-            remainingCredits,
-            percentage,
-            isAnonymous
-        });
-        
-        // Force update the DOM elements directly
         document.getElementById('credit-bar-fill').style.width = `${percentage}%`;
         document.getElementById('credit-amount').textContent = remainingCredits.toFixed(isAnonymous ? 0 : 2);
         
-        // Set warning threshold based on user type
         const warningThreshold = isAnonymous ? 2 : 2.00;
         
-        // Check if credits are low
         if (remainingCredits <= warningThreshold && !lowCreditWarningShown) {
             document.getElementById('credit-warning-text').classList.add('active');
             document.getElementById('credit-remaining').textContent = remainingCredits.toFixed(isAnonymous ? 0 : 2);
@@ -1667,26 +1833,16 @@ document.addEventListener('DOMContentLoaded', () => {
             lowCreditWarningShown = false;
         }
         
-        // Set next reset date (15th or 1st of month)
         const now = new Date();
         let nextResetDate;
         
         if (now.getDate() < 15) {
-            // Next reset is on the 15th
             nextResetDate = new Date(now.getFullYear(), now.getMonth(), 15);
         } else {
-            // Next reset is on the 1st of next month
             nextResetDate = new Date(now.getFullYear(), now.getMonth() + 1, 1);
         }
         
         document.getElementById('reset-date').textContent = nextResetDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-        
-        // Force a repaint to ensure the UI updates
-        setTimeout(() => {
-            document.getElementById('credit-popup').style.display = 'none';
-            document.getElementById('credit-popup').offsetHeight; // Force reflow
-            document.getElementById('credit-popup').style.display = '';
-        }, 0);
     }
 
     // Check if credits need to be reset
@@ -1695,43 +1851,36 @@ document.addEventListener('DOMContentLoaded', () => {
         const lastResetDay = lastCreditReset.getDate();
         const currentDay = now.getDate();
         
-        // Reset on the 1st and 15th of each month
         if ((currentDay === 1 || currentDay === 15) && 
             (lastResetDay !== 1 && lastResetDay !== 15 || 
              lastCreditReset.getMonth() !== now.getMonth() ||
              lastCreditReset.getFullYear() !== now.getFullYear())) {
             
-            // Reset credits
             creditsUsed = 0;
             lastCreditReset = now;
             lowCreditWarningShown = false;
             
-            // Update UI
             updateCreditBar();
             forceUpdateCreditDisplay();
             showToast('Your credits have been reset!');
             
-            // Save to localStorage
             saveCreditsToStorage();
         }
     }
 
-    // Save user credits to storage (Firestore or localStorage)
+    // Save user credits to storage
     function saveCreditsToStorage() {
         if (!isAnonymous && currentUser && firestoreAvailable) {
-            // Try to save to Firestore for signed-in users
             db.collection('users').doc(currentUser.uid).set({
                 creditsUsed: creditsUsed,
                 lastCreditReset: firebase.firestore.Timestamp.fromDate(lastCreditReset)
             }, { merge: true })
             .catch(error => {
                 console.error('Error saving user credits:', error);
-                // If Firestore fails, mark it as unavailable and fall back to localStorage
                 firestoreAvailable = false;
                 saveToLocalStorage();
             });
         } else {
-            // Save to localStorage for anonymous users or if Firestore is unavailable
             saveToLocalStorage();
         }
     }
@@ -1743,19 +1892,11 @@ document.addEventListener('DOMContentLoaded', () => {
         
         localStorage.setItem(storageKey, creditsUsed);
         localStorage.setItem(resetKey, lastCreditReset.toISOString());
-        
-        console.log('Saved credits to localStorage:', {
-            storageKey,
-            creditsUsed,
-            resetKey,
-            lastCreditReset: lastCreditReset.toISOString()
-        });
     }
 
     // Load user credits from storage
     function loadCreditsFromStorage() {
         if (!isAnonymous && currentUser && firestoreAvailable) {
-            // Try to load from Firestore for signed-in users
             db.collection('users').doc(currentUser.uid).get()
                 .then(doc => {
                     if (doc.exists) {
@@ -1769,27 +1910,16 @@ document.addEventListener('DOMContentLoaded', () => {
                         }
                     }
                     
-                    // Check if we need to reset credits
                     checkCreditReset();
-                    
-                    // Update UI
                     updateCreditBar();
                     forceUpdateCreditDisplay();
-                    
-                    console.log('Loaded credits from Firestore:', {
-                        creditsUsed,
-                        lastCreditReset,
-                        remaining: userCredits - creditsUsed
-                    });
                 })
                 .catch(error => {
                     console.error('Error loading user credits:', error);
-                    // If Firestore fails, mark it as unavailable and fall back to localStorage
                     firestoreAvailable = false;
                     loadFromLocalStorage();
                 });
         } else {
-            // Load from localStorage for anonymous users or if Firestore is unavailable
             loadFromLocalStorage();
         }
     }
@@ -1810,20 +1940,9 @@ document.addEventListener('DOMContentLoaded', () => {
             lastCreditReset = new Date(savedLastReset);
         }
         
-        // Check if we need to reset credits
         checkCreditReset();
-        
-        // Update UI
         updateCreditBar();
         forceUpdateCreditDisplay();
-        
-        console.log('Loaded credits from localStorage:', {
-            storageKey,
-            creditsUsed,
-            resetKey,
-            lastCreditReset,
-            remaining: userCredits - creditsUsed
-        });
     }
 
     // Theme toggle functionality
@@ -1855,11 +1974,9 @@ document.addEventListener('DOMContentLoaded', () => {
         currentUser = user;
         
         if (user) {
-            // User is signed in
             if (!user.isAnonymous) {
-                // Update UI for signed-in user
                 userDisplayName.textContent = user.displayName || 'User';
-                userStatus.textContent = 'Free Planning';
+                userStatus.innerHTML = '<div class="status-indicator"></div>Free Planning';
                 isAnonymous = false;
                 userCredits = SIGNED_IN_MAX_CREDITS;
                 creditLabel.innerHTML = `$<span id="credit-amount">${SIGNED_IN_MAX_CREDITS.toFixed(2)}</span> credit`;
@@ -1870,43 +1987,33 @@ document.addEventListener('DOMContentLoaded', () => {
                     userProfilePic.src = 'Nexora.png';
                 }
                 
-                loginBtn.querySelector('.sidebar-item-text').textContent = 'Sign Out';
+                loginBtn.querySelector('.sidebar-item-text').textContent = 'Profile';
                 
-                // Load user's conversations
                 loadConversations();
-                
-                // Load user's credits
                 loadCreditsFromStorage();
             } else {
-                // Anonymous user
                 isAnonymous = true;
                 userCredits = ANONYMOUS_MAX_CREDITS;
                 creditLabel.innerHTML = `<span id="credit-amount">${ANONYMOUS_MAX_CREDITS}</span> credits`;
                 loadCreditsFromStorage();
             }
         } else {
-            // User is signed out, try to proceed without authentication
             userDisplayName.textContent = 'Nexora';
-            userStatus.textContent = 'Free Planning';
+            userStatus.innerHTML = '<div class="status-indicator"></div>Free Planning';
             userProfilePic.src = 'Nexora.png';
             loginBtn.querySelector('.sidebar-item-text').textContent = 'Sign In';
             isAnonymous = true;
             userCredits = ANONYMOUS_MAX_CREDITS;
             creditLabel.innerHTML = `<span id="credit-amount">${ANONYMOUS_MAX_CREDITS}</span> credits`;
             
-            // Clear conversations
             conversationsContainer.innerHTML = '';
-            
-            // Load anonymous credits
             loadCreditsFromStorage();
             
-            // Try anonymous auth if needed for features, but don't block the app
             if (anonymousAuthEnabled) {
                 auth.signInAnonymously()
                     .catch((error) => {
                         console.error('Anonymous auth error:', error);
                         anonymousAuthEnabled = false;
-                        // Continue without anonymous auth
                     });
             }
         }
@@ -1918,10 +2025,8 @@ document.addEventListener('DOMContentLoaded', () => {
         
         auth.signInWithPopup(provider)
             .then((result) => {
-                // Close the popup
                 loginPopup.classList.remove('active');
                 
-                // If user was anonymous before, transfer their conversation
                 if (currentConversationId && auth.currentUser && auth.currentUser.isAnonymous) {
                     transferAnonymousConversation(currentConversationId, result.user.uid);
                 }
@@ -1931,7 +2036,6 @@ document.addEventListener('DOMContentLoaded', () => {
             .catch((error) => {
                 console.error('Google sign in error:', error);
                 
-                // Show a helpful error message
                 if (error.code === 'auth/unauthorized-domain') {
                     showToast('This domain is not authorized for OAuth operations.');
                 } else {
@@ -1948,10 +2052,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Login button click handler
     loginBtn.addEventListener('click', () => {
         if (currentUser && !currentUser.isAnonymous) {
-            // Show logout confirmation
-            logoutPopup.classList.add('active');
+            profileDropdown.classList.toggle('active');
         } else {
-            // Show login popup
             popupMessage.textContent = 'Sign in to experience Nexora Cognitia with unlimited access.';
             loginPopup.classList.add('active');
         }
@@ -1963,12 +2065,10 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     logoutConfirm.addEventListener('click', () => {
-        // Sign out
         auth.signOut()
             .then(() => {
                 logoutPopup.classList.remove('active');
                 showToast('Successfully signed out');
-                console.log('User signed out');
             })
             .catch((error) => {
                 console.error('Sign out error:', error);
@@ -1989,16 +2089,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Modal handlers
-    searchBtn.addEventListener('click', () => {
-        searchModal.classList.add('active');
-        searchInput.focus();
-    });
-
-    searchModalClose.addEventListener('click', () => {
-        searchModal.classList.remove('active');
-    });
-
     // Edit modal handlers
     editModalClose.addEventListener('click', () => {
         editModal.classList.remove('active');
@@ -2011,13 +2101,11 @@ document.addEventListener('DOMContentLoaded', () => {
     editSave.addEventListener('click', () => {
         const newPrompt = editPromptTextarea.value.trim();
         if (newPrompt && currentEditingMessageId) {
-            // Update the message in the UI
             const messageElement = document.querySelector(`[data-message-id="${currentEditingMessageId}"]`);
             if (messageElement) {
                 messageElement.textContent = newPrompt;
             }
             
-            // Update in Firestore if possible
             if (currentConversationId && firestoreAvailable) {
                 db.collection('conversations').doc(currentConversationId)
                     .collection('messages')
@@ -2035,7 +2123,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     });
             }
             
-            // Update in local storage
             for (let i = 0; i < allMessages.length; i++) {
                 if (allMessages[i].id === currentEditingMessageId) {
                     allMessages[i].content = newPrompt;
@@ -2043,7 +2130,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
             
-            // If this was the first message, update the title
             if (allMessages.length > 0 && allMessages[0].id === currentEditingMessageId) {
                 initialPrompt = newPrompt;
                 updateDocumentTitle(initialPrompt);
@@ -2054,12 +2140,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Close modals when clicking outside
-    searchModal.addEventListener('click', (e) => {
-        if (e.target === searchModal) {
-            searchModal.classList.remove('active');
-        }
-    });
-
     editModal.addEventListener('click', (e) => {
         if (e.target === editModal) {
             editModal.classList.remove('active');
@@ -2084,7 +2164,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     conversation.id = doc.id;
                     conversations.push(conversation);
                     
-                    // Create conversation item in sidebar
                     addConversationToSidebar(conversation);
                 });
             })
@@ -2107,45 +2186,32 @@ document.addEventListener('DOMContentLoaded', () => {
         
         conversationItem.innerHTML = `
             <div class="conversation-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                    <path d="M5 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
-                    <path d="m2.165 15.803.02-.004c1.83-.363 2.948-.842 3.468-1.105A9.06 9.06 0 0 0 8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6a10.437 10.437 0 0 1-.524 2.318l-.003.011a10.722 10.722 0 0 1-.244.637c-.079.186.074.394.273.362a21.673 21.673 0 0 0 .693-.125zm.8-3.108a1 1 0 0 0-.287-.801C1.618 10.83 1 9.468 1 8c0-3.192 3.004-6 7-6s7 2.808 7 6c0 3.193-3.004 6-7 6a8.06 8.06 0 0 1-2.088-.272 1 1 0 0 0-.711.074c-.387.196-1.24.57-2.634.893a10.97 10.97 0 0 0 .398-2z"/>
-                </svg>
+                <span class="material-icons">chat_bubble_outline</span>
             </div>
             <div class="conversation-title">${conversation.title || 'New Conversation'}</div>
             <div class="conversation-actions">
                 <button class="conversation-action-btn edit-btn" title="Edit conversation">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
-                        <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/>
-                    </svg>
+                    <span class="material-icons" style="font-size: 14px;">edit</span>
                 </button>
                 <button class="conversation-action-btn delete-btn" title="Delete conversation">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
-                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
-                        <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
-                    </svg>
+                    <span class="material-icons" style="font-size: 14px;">delete</span>
                 </button>
             </div>
         `;
         
-        // Add click event to load conversation
         conversationItem.addEventListener('click', (e) => {
-            // Don't load if clicking on action buttons
             if (e.target.closest('.conversation-actions')) {
                 return;
             }
             loadConversation(conversation.id);
         });
         
-        // Add edit conversation handler
         const editBtn = conversationItem.querySelector('.edit-btn');
         if (editBtn) {
             editBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
-                // Load the conversation first if not already loaded
                 if (currentConversationId !== conversation.id) {
                     loadConversation(conversation.id, () => {
-                        // After loading, edit the first message
                         if (allMessages.length > 0) {
                             const firstUserMessage = allMessages.find(msg => msg.role === 'user');
                             if (firstUserMessage) {
@@ -2156,7 +2222,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         }
                     });
                 } else {
-                    // Conversation already loaded, edit the first message
                     if (allMessages.length > 0) {
                         const firstUserMessage = allMessages.find(msg => msg.role === 'user');
                         if (firstUserMessage) {
@@ -2169,7 +2234,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
         
-        // Add delete conversation handler
         const deleteBtn = conversationItem.querySelector('.delete-btn');
         if (deleteBtn) {
             deleteBtn.addEventListener('click', (e) => {
@@ -2199,31 +2263,28 @@ document.addEventListener('DOMContentLoaded', () => {
                     handleConversationDeleted(conversationId);
                 });
         } else {
-            // Just handle the UI update if Firestore is not available
             handleConversationDeleted(conversationId);
         }
     }
 
     // Handle conversation deleted (UI updates)
     function handleConversationDeleted(conversationId) {
-        // Remove from UI
         const conversationItem = document.querySelector(`.conversation-item[data-id="${conversationId}"]`);
         if (conversationItem) {
             conversationItem.remove();
         }
         
-        // Remove from conversations array
         conversations = conversations.filter(conv => conv.id !== conversationId);
         
-        // If this was the current conversation, clear the chat
         if (currentConversationId === conversationId) {
-            chatMessages.innerHTML = '';
+            messagesContainer.innerHTML = '';
             emptyChat.classList.remove('hidden');
             currentConversationId = null;
             lastUserMessage = '';
             allMessages = [];
             initialPrompt = '';
             updateDocumentTitle('');
+            updateURL(null);
             regenerateButton.classList.remove('visible');
         }
         
@@ -2235,8 +2296,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!conversationId) return;
         
         currentConversationId = conversationId;
+        updateURL(conversationId);
         
-        // Update active state in sidebar
         document.querySelectorAll('.conversation-item').forEach(item => {
             item.classList.remove('active');
             if (item.dataset.id === conversationId) {
@@ -2244,25 +2305,30 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
         
-        // Clear current chat
-        chatMessages.innerHTML = '';
+        document.querySelectorAll('.sidebar-item').forEach(item => {
+            item.classList.remove('active');
+        });
+        
+        messagesContainer.innerHTML = '';
         emptyChat.classList.add('hidden');
-        allMessages = []; // Clear stored messages
+        allMessages = [];
         
         if (firestoreAvailable) {
-            // Load messages from Firestore
             db.collection('conversations').doc(conversationId)
                 .collection('messages')
-                .orderBy('timestamp')
+                .orderBy('timestamp', 'asc')
                 .get()
                 .then((querySnapshot) => {
+                    const messages = [];
                     querySnapshot.forEach((doc) => {
                         const message = doc.data();
-                        message.id = doc.id; // Store the message ID
-                        
+                        message.id = doc.id;
+                        messages.push(message);
+                    });
+                    
+                    messages.forEach(message => {
                         if (message.role === 'USER') {
                             addMessageToChat('user', message.content, false, message.id);
-                            // Store for search functionality
                             allMessages.push({
                                 id: message.id,
                                 role: 'user',
@@ -2270,17 +2336,14 @@ document.addEventListener('DOMContentLoaded', () => {
                                 timestamp: message.timestamp
                             });
                             
-                            // Update last user message for regeneration
                             lastUserMessage = message.content;
                             
-                            // Update title if this is the first message
                             if (allMessages.length === 1) {
                                 initialPrompt = message.content;
                                 updateDocumentTitle(initialPrompt);
                             }
                         } else if (message.role === 'CHATBOT') {
                             addMessageToChat('bot', message.content, false, message.id);
-                            // Store for search functionality
                             allMessages.push({
                                 id: message.id,
                                 role: 'bot',
@@ -2290,10 +2353,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         }
                     });
                     
-                    // Scroll to bottom
-                    chatMessages.scrollTop = chatMessages.scrollHeight;
-                    
-                    // Call callback if provided
                     if (typeof callback === 'function') {
                         callback();
                     }
@@ -2303,11 +2362,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     firestoreAvailable = false;
                     showToast('Error loading conversation from server');
                     
-                    // Try to load from localStorage as fallback
                     loadConversationFromLocalStorage(conversationId, callback);
                 });
         } else {
-            // Load from localStorage if Firestore is not available
             loadConversationFromLocalStorage(conversationId, callback);
         }
     }
@@ -2323,10 +2380,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         addMessageToChat('user', message.content, false, message.id);
                         allMessages.push(message);
                         
-                        // Update last user message for regeneration
                         lastUserMessage = message.content;
                         
-                        // Update title if this is the first message
                         if (allMessages.length === 1) {
                             initialPrompt = message.content;
                             updateDocumentTitle(initialPrompt);
@@ -2337,10 +2392,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 });
                 
-                // Scroll to bottom
-                chatMessages.scrollTop = chatMessages.scrollHeight;
-                
-                // Call callback if provided
                 if (typeof callback === 'function') {
                     callback();
                 }
@@ -2370,8 +2421,8 @@ document.addEventListener('DOMContentLoaded', () => {
             return db.collection('conversations').add(conversationData)
                 .then((docRef) => {
                     currentConversationId = docRef.id;
+                    updateURL(docRef.id);
                     
-                    // Add to conversations array and sidebar if user is signed in
                     if (userId && !isAnonymousUser) {
                         const conversation = {
                             ...conversationData,
@@ -2387,11 +2438,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     console.error('Error creating conversation in Firestore:', error);
                     firestoreAvailable = false;
                     
-                    // Fall back to localStorage
                     return createLocalConversation(conversationData);
                 });
         } else {
-            // Use localStorage if Firestore is not available
             return Promise.resolve(createLocalConversation(conversationData));
         }
     }
@@ -2400,8 +2449,8 @@ document.addEventListener('DOMContentLoaded', () => {
     function createLocalConversation(conversationData) {
         const conversationId = 'local_' + Date.now();
         currentConversationId = conversationId;
+        updateURL(conversationId);
         
-        // Save conversation metadata
         localStorage.setItem(`conversationMeta_${conversationId}`, JSON.stringify({
             ...conversationData,
             id: conversationId,
@@ -2409,7 +2458,6 @@ document.addEventListener('DOMContentLoaded', () => {
             updatedAt: new Date().toISOString()
         }));
         
-        // Initialize empty messages array
         localStorage.setItem(`conversation_${conversationId}`, JSON.stringify([]));
         
         return conversationId;
@@ -2430,7 +2478,6 @@ document.addEventListener('DOMContentLoaded', () => {
             return db.collection('conversations').doc(conversationId)
                 .collection('messages').add(messageData)
                 .then((docRef) => {
-                    // Update conversation timestamp
                     db.collection('conversations').doc(conversationId)
                         .update({
                             updatedAt: firebase.firestore.FieldValue.serverTimestamp()
@@ -2440,17 +2487,15 @@ document.addEventListener('DOMContentLoaded', () => {
                             firestoreAvailable = false;
                         });
                     
-                    return docRef.id; // Return the message ID
+                    return docRef.id;
                 })
                 .catch((error) => {
                     console.error('Error saving message to Firestore:', error);
                     firestoreAvailable = false;
                     
-                    // Fall back to localStorage
                     return saveMessageToLocalStorage(conversationId, role, content, messageId);
                 });
         } else {
-            // Use localStorage if Firestore is not available
             return Promise.resolve(saveMessageToLocalStorage(conversationId, role, content, messageId));
         }
     }
@@ -2468,7 +2513,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
         
-        // Add new message
         messages.push({
             id: messageId,
             role: role === 'USER' ? 'user' : 'bot',
@@ -2476,10 +2520,8 @@ document.addEventListener('DOMContentLoaded', () => {
             timestamp: new Date().toISOString()
         });
         
-        // Save updated messages
         localStorage.setItem(`conversation_${conversationId}`, JSON.stringify(messages));
         
-        // Update conversation metadata
         const savedMeta = localStorage.getItem(`conversationMeta_${conversationId}`);
         if (savedMeta) {
             try {
@@ -2514,94 +2556,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // New chat button
     newChatBtn.addEventListener('click', () => {
-        // Clear current chat
-        chatMessages.innerHTML = '';
+        messagesContainer.innerHTML = '';
         emptyChat.classList.remove('hidden');
         currentConversationId = null;
         lastUserMessage = '';
         allMessages = [];
         initialPrompt = '';
         updateDocumentTitle('');
+        updateURL(null);
         
-        // Update active state in sidebar
         document.querySelectorAll('.conversation-item').forEach(item => {
             item.classList.remove('active');
         });
         
         newChatBtn.classList.add('active');
         regenerateButton.classList.remove('visible');
-    });
-
-    // Search functionality - Fixed to properly search through messages
-    searchInput.addEventListener('input', () => {
-        const query = searchInput.value.trim().toLowerCase();
-        searchResults.innerHTML = '';
-        
-        if (query.length < 2) return;
-        
-        // Search through all messages
-        const results = allMessages.filter(msg => 
-            msg.content.toLowerCase().includes(query)
-        );
-        
-        if (results.length === 0) {
-            searchResults.innerHTML = '<div class="search-result-item">No results found</div>';
-            return;
-        }
-        
-        results.forEach((result, index) => {
-            const resultItem = document.createElement('div');
-            resultItem.className = 'search-result-item';
-            
-            // Highlight the matching text
-            let content = result.content;
-            const queryRegex = new RegExp(`(${query})`, 'gi');
-            content = content.replace(queryRegex, '<span class="search-highlight">$1</span>');
-            
-            // Truncate long messages
-            if (content.length > 100) {
-                const startIndex = content.toLowerCase().indexOf(query.toLowerCase());
-                const startPos = Math.max(0, startIndex - 40);
-                content = (startPos > 0 ? '...' : '') + 
-                         content.substring(startPos, startPos + 100) + 
-                         (content.length > startPos + 100 ? '...' : '');
-            }
-            
-            resultItem.innerHTML = `
-                <strong>${result.role === 'user' ? 'You' : 'Nexora'}:</strong> ${content}
-            `;
-            
-            // Scroll to the message when clicked
-            resultItem.addEventListener('click', () => {
-                // Find the message in the chat
-                const messages = chatMessages.querySelectorAll('.message');
-                let targetMessage = null;
-                
-                for (let i = 0; i < messages.length; i++) {
-                    const messageContent = messages[i].querySelector('.message-content');
-                    if (messageContent && messageContent.textContent.includes(result.content.substring(0, 30))) {
-                        targetMessage = messages[i];
-                        break;
-                    }
-                }
-                
-                if (targetMessage) {
-                    // Scroll to the message
-                    targetMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    
-                    // Highlight the message briefly
-                    targetMessage.style.backgroundColor = 'rgba(106, 17, 203, 0.1)';
-                    setTimeout(() => {
-                        targetMessage.style.backgroundColor = '';
-                    }, 2000);
-                    
-                    // Close search modal
-                    searchModal.classList.remove('active');
-                }
-            });
-            
-            searchResults.appendChild(resultItem);
-        });
     });
 
     // Handle user message
@@ -2618,7 +2587,6 @@ document.addEventListener('DOMContentLoaded', () => {
             sendButton.style.display = 'flex';
             regenerateButton.classList.add('visible');
             
-            // Add cursor at the end of the current message
             if (currentMessageElement) {
                 const cursor = document.createElement('span');
                 cursor.className = 'cursor';
@@ -2632,14 +2600,12 @@ document.addEventListener('DOMContentLoaded', () => {
         if (isGenerating) return;
         
         if (lastUserMessage) {
-            // Remove the last bot message
-            const messages = chatMessages.querySelectorAll('.message');
+            const messages = messagesContainer.querySelectorAll('.message');
             if (messages.length > 0) {
                 const lastMessage = messages[messages.length - 1];
                 if (lastMessage.classList.contains('bot-message')) {
                     lastMessage.remove();
                     
-                    // Also remove from Firestore if possible
                     if (currentConversationId && firestoreAvailable) {
                         db.collection('conversations').doc(currentConversationId)
                             .collection('messages')
@@ -2659,12 +2625,10 @@ document.addEventListener('DOMContentLoaded', () => {
                             });
                     }
                     
-                    // Remove from allMessages array
                     if (allMessages.length > 0 && allMessages[allMessages.length - 1].role === 'bot') {
                         allMessages.pop();
                     }
                     
-                    // Remove from localStorage if needed
                     if (!firestoreAvailable && currentConversationId) {
                         const savedMessages = localStorage.getItem(`conversation_${currentConversationId}`);
                         if (savedMessages) {
@@ -2682,7 +2646,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
             
-            // Get a new response
             getBotResponse(lastUserMessage);
             regenerateButton.classList.remove('visible');
         } else {
@@ -2694,23 +2657,17 @@ document.addEventListener('DOMContentLoaded', () => {
         const message = userInput.value.trim();
         if (!message || isGenerating) return;
 
-        // Hide regenerate button
         regenerateButton.classList.remove('visible');
-        
-        // Store for regeneration
         lastUserMessage = message;
 
-        // Check if user is anonymous and has reached the limit
         if (isAnonymous) {
             anonymousPromptCount++;
             
-            // Show warning after 5th prompt
             if (anonymousPromptCount === 5) {
                 popupMessage.textContent = 'You have 1 credit left to chat anonymously. Sign in to experience Nexora Cognitia with unlimited access.';
                 loginPopup.classList.add('active');
             }
             
-            // Block after 6th prompt
             if (anonymousPromptCount > 6) {
                 popupMessage.textContent = 'You have used all your anonymous credits. Please sign in to continue using Nexora Cognitia.';
                 loginPopup.classList.add('active');
@@ -2718,18 +2675,15 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        // Hide empty chat screen on first message
         if (emptyChat && !emptyChat.classList.contains('hidden')) {
             emptyChat.classList.add('hidden');
         }
 
-        // If this is the first message, update the title and store initial prompt
         if (allMessages.length === 0) {
             initialPrompt = message;
             updateDocumentTitle(initialPrompt);
         }
 
-        // Create new conversation if needed
         if (!currentConversationId) {
             try {
                 currentConversationId = await createNewConversation(message);
@@ -2739,11 +2693,9 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        // Add message to UI
         const messageId = await addMessageToChat('user', message);
         userInput.value = '';
         
-        // Store for search functionality
         allMessages.push({
             id: messageId,
             role: 'user',
@@ -2751,10 +2703,8 @@ document.addEventListener('DOMContentLoaded', () => {
             timestamp: new Date()
         });
         
-        // Save message to storage
         saveMessageToFirestore(currentConversationId, 'USER', message)
             .then(id => {
-                // Update the message ID in allMessages
                 for (let i = 0; i < allMessages.length; i++) {
                     if (allMessages[i].role === 'user' && allMessages[i].content === message) {
                         allMessages[i].id = id;
@@ -2764,23 +2714,18 @@ document.addEventListener('DOMContentLoaded', () => {
             })
             .catch(error => console.error('Error saving message:', error));
         
-        // Get bot response
         getBotResponse(message);
         
-        // Update credit usage (approximately 1 credit per message for anonymous, 0.05 for signed-in)
         if (isAnonymous) {
-            creditsUsed += 1; // 1 credit per message for anonymous
+            creditsUsed += 1;
             localStorage.setItem('anonymousCreditsUsed', creditsUsed);
-            console.log('Anonymous credits used (after user message):', creditsUsed);
         } else {
-            creditsUsed += 0.05; // $0.05 per message for signed-in
-            console.log('Signed-in user credits used (after user message):', creditsUsed);
-            saveCreditsToStorage(); // Save to Firestore immediately
+            creditsUsed += 0.05;
+            saveCreditsToStorage();
         }
         
-        // Update UI
         updateCreditBar();
-        forceUpdateCreditDisplay(); // Force update the UI
+        forceUpdateCreditDisplay();
     }
 
     async function addMessageToChat(sender, message, animate = true, messageId = null) {
@@ -2812,26 +2757,19 @@ document.addEventListener('DOMContentLoaded', () => {
         const messageContent = document.createElement('div');
         messageContent.className = 'message-content';
         
-        // Store message ID if provided
         if (messageId) {
             messageContent.dataset.messageId = messageId;
         }
 
         if (sender === 'user') {
-            // Add message actions for user messages
             const messageActions = document.createElement('div');
             messageActions.className = 'message-actions';
             messageActions.innerHTML = `
                 <button class="message-action-btn edit-btn" title="Edit message">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                        <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/>
-                    </svg>
+                    <span class="material-icons" style="font-size: 16px;">edit</span>
                 </button>
                 <button class="message-action-btn copy-btn" title="Copy message">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                        <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
-                        <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
-                    </svg>
+                    <span class="material-icons" style="font-size: 16px;">content_copy</span>
                 </button>
             `;
             
@@ -2839,7 +2777,6 @@ document.addEventListener('DOMContentLoaded', () => {
             messageDiv.appendChild(avatar);
             messageDiv.appendChild(messageActions);
             
-            // For user messages, display immediately
             if (message.includes('\`\`\`')) {
                 let parts = message.split('\`\`\`');
                 let formattedMessage = '';
@@ -2851,7 +2788,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 messageContent.innerHTML = message.replace(/\n/g, '<br>');
             }
             
-            // Add edit functionality
             const editBtn = messageDiv.querySelector('.edit-btn');
             if (editBtn) {
                 editBtn.addEventListener('click', () => {
@@ -2861,7 +2797,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             }
             
-            // Add copy functionality
             const copyBtn = messageDiv.querySelector('.copy-btn');
             if (copyBtn) {
                 copyBtn.addEventListener('click', () => {
@@ -2876,15 +2811,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             }
         } else {
-            // Add message actions for bot messages
             const messageActions = document.createElement('div');
             messageActions.className = 'message-actions';
             messageActions.innerHTML = `
                 <button class="message-action-btn copy-btn" title="Copy response">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                        <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
-                        <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
-                    </svg>
+                    <span class="material-icons" style="font-size: 16px;">content_copy</span>
                 </button>
             `;
             
@@ -2893,7 +2824,6 @@ document.addEventListener('DOMContentLoaded', () => {
             messageDiv.appendChild(messageActions);
             
             if (animate) {
-                // For bot messages, add thinking dots first
                 const thinkingDots = document.createElement('div');
                 thinkingDots.className = 'thinking-dots';
                 for (let i = 0; i < 3; i++) {
@@ -2903,13 +2833,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
                 messageContent.appendChild(thinkingDots);
             } else {
-                // For loaded messages, display immediately with keyword highlighting
                 if (message.includes('\`\`\`')) {
                     let parts = message.split('\`\`\`');
                     let formattedMessage = '';
                     for (let i = 0; i < parts.length; i++) {
                         if (i % 2 === 0) {
-                            // Apply keyword highlighting to regular text
                             formattedMessage += highlightKeywords(parts[i]);
                         } else {
                             formattedMessage += `<pre><code>${parts[i]}</code></pre>`;
@@ -2917,11 +2845,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                     messageContent.innerHTML = formattedMessage;
                 } else {
-                    // Apply keyword highlighting
                     messageContent.innerHTML = highlightKeywords(message);
                 }
                 
-                // Add copy functionality
                 const copyBtn = messageDiv.querySelector('.copy-btn');
                 if (copyBtn) {
                     copyBtn.addEventListener('click', () => {
@@ -2938,21 +2864,21 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
         
-        chatMessages.appendChild(messageDiv);
-        chatMessages.scrollTop = chatMessages.scrollHeight;
+        messagesContainer.appendChild(messageDiv);
         
-        // Generate a temporary ID if none provided
         if (!messageId) {
             messageId = 'temp-' + Date.now();
             messageContent.dataset.messageId = messageId;
         }
+        
+        // Scroll to bottom
+        chatMessages.scrollTop = chatMessages.scrollHeight;
         
         return messageId;
     }
 
     // Function to highlight keywords in bot responses
     function highlightKeywords(text) {
-        // List of keywords to highlight (can be expanded)
         const keywords = [
             'AI', 'machine learning', 'neural network', 'algorithm', 'data', 
             'analysis', 'processing', 'intelligence', 'model', 'training',
@@ -2963,10 +2889,8 @@ document.addEventListener('DOMContentLoaded', () => {
             'security', 'privacy', 'encryption', 'protected', 'confidential'
         ];
         
-        // Replace newlines with <br> tags
         let formattedText = text.replace(/\n/g, '<br>');
         
-        // Highlight each keyword
         keywords.forEach(keyword => {
             const regex = new RegExp(`\\b(${keyword})\\b`, 'gi');
             formattedText = formattedText.replace(regex, '<span class="keyword">$1</span>');
@@ -2977,25 +2901,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Function to type out message word by word
     async function typeMessage(element, message) {
-        if (!element) return; // Guard against null element
+        if (!element) return;
         
         isGenerating = true;
         shouldStop = false;
         sendButton.style.display = 'none';
         stopButton.classList.add('visible');
         
-        // Clear thinking dots
         element.innerHTML = '';
         
-        // Check if message contains code blocks
         if (message.includes('\`\`\`')) {
             let parts = message.split('\`\`\`');
             for (let i = 0; i < parts.length; i++) {
                 if (i % 2 === 0) {
-                    // Regular text with keyword highlighting
                     await typeTextWordByWord(element, parts[i], true);
                 } else {
-                    // Code block
                     if (shouldStop) break;
                     const pre = document.createElement('pre');
                     const code = document.createElement('code');
@@ -3005,11 +2925,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
         } else {
-            // Regular text with keyword highlighting
             await typeTextWordByWord(element, message, true);
         }
         
-        // Add cursor at the end
         const cursor = document.createElement('span');
         cursor.className = 'cursor';
         element.appendChild(cursor);
@@ -3019,7 +2937,6 @@ document.addEventListener('DOMContentLoaded', () => {
         sendButton.style.display = 'flex';
         regenerateButton.classList.add('visible');
         
-        // Add copy functionality to the message
         const messageDiv = element.closest('.message');
         if (messageDiv) {
             const copyBtn = messageDiv.querySelector('.copy-btn');
@@ -3040,9 +2957,8 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Function to type text word by word
     async function typeTextWordByWord(element, text, highlightKeywords = false) {
-        if (!element) return; // Guard against null element
+        if (!element) return;
         
-        // List of keywords to highlight
         const keywords = [
             'AI', 'machine learning', 'neural network', 'algorithm', 'data', 
             'analysis', 'processing', 'intelligence', 'model', 'training',
@@ -3059,7 +2975,6 @@ document.addEventListener('DOMContentLoaded', () => {
             
             const word = words[i];
             
-            // Handle newlines
             if (word.includes('\n')) {
                 const parts = word.split('\n');
                 for (let j = 0; j < parts.length; j++) {
@@ -3069,7 +2984,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (parts[j].length > 0) {
                         const partSpan = document.createElement('span');
                         
-                        // Check if this word should be highlighted
                         if (highlightKeywords && keywords.some(keyword => 
                             keyword.toLowerCase() === parts[j].toLowerCase() ||
                             keyword.toLowerCase() === parts[j].toLowerCase().replace(/[.,!?;:]/g, '')
@@ -3087,7 +3001,6 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 const wordSpan = document.createElement('span');
                 
-                // Check if this word should be highlighted
                 if (highlightKeywords && keywords.some(keyword => 
                     keyword.toLowerCase() === word.toLowerCase() ||
                     keyword.toLowerCase() === word.toLowerCase().replace(/[.,!?;:]/g, '')
@@ -3102,26 +3015,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
             
-            const networkQuality = Math.random(); // Simulate network quality (0-1)
+            const networkQuality = Math.random();
             const adjustedSpeed = Math.max(10, Math.min(100, typingSpeed * (1 + (1 - networkQuality))));
             
             await new Promise(resolve => setTimeout(resolve, adjustedSpeed));
-            chatMessages.scrollTop = chatMessages.scrollHeight;
         }
     }
 
     async function getBotResponse(userMessage) {
         try {
-            console.log('Sending request to backend:', {
-                message: userMessage,
-                chat_history: []
-            });
-            
-            // Show stop button while waiting for response
             stopButton.classList.add('visible');
             sendButton.style.display = 'none';
             
-            // Create bot message with thinking dots
             const botMessageContent = await addMessageToChat('bot', '');
             currentMessageElement = document.querySelector(`[data-message-id="${botMessageContent}"]`);
             
@@ -3146,20 +3051,15 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             const data = await response.json();
-            console.log('Backend response:', data);
 
             if (data && data.text) {
-                // Estimate token count for credit calculation
                 const tokenEstimate = data.text.split(/\s+/).length * 1.5;
                 
-                // Type out the response
                 await typeMessage(currentMessageElement, data.text);
                 
-                // Save the bot response to storage
                 if (currentConversationId) {
                     const messageId = await saveMessageToFirestore(currentConversationId, 'CHATBOT', data.text);
                     
-                    // Store for search functionality
                     allMessages.push({
                         id: messageId,
                         role: 'bot',
@@ -3168,21 +3068,17 @@ document.addEventListener('DOMContentLoaded', () => {
                     });
                 }
                 
-                // Update credit usage based on response length
                 if (isAnonymous) {
                     creditsUsed += Math.ceil(tokenEstimate / 500);
                     localStorage.setItem('anonymousCreditsUsed', creditsUsed);
-                    console.log('Anonymous credits used (after bot response):', creditsUsed);
                 } else {
                     const responseCredit = tokenEstimate * 0.0001;
                     creditsUsed += responseCredit;
-                    console.log('Signed-in user credits used (after bot response):', creditsUsed, 'for', tokenEstimate, 'tokens');
                     saveCreditsToStorage();
                 }
                 
-                // Update UI
                 updateCreditBar();
-                forceUpdateCreditDisplay(); // Force update the UI
+                forceUpdateCreditDisplay();
             } else {
                 await typeMessage(currentMessageElement, "I'm sorry, I couldn't generate a response. Please try again.");
             }
@@ -3195,16 +3091,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Initialize the app
-    // Load saved theme
     if (savedTheme) {
         document.documentElement.setAttribute('data-theme', savedTheme);
     }
     
-    // Initialize credit display
     updateCreditBar();
     forceUpdateCreditDisplay();
     
-    // Debug function to log credit state
+    // Load conversation from URL on page load
+    loadConversationFromURL();
+    
     window.debugCredits = function() {
         console.log({
             userCredits,
@@ -3216,7 +3112,6 @@ document.addEventListener('DOMContentLoaded', () => {
             firestoreAvailable
         });
         
-        // Force update the UI
         forceUpdateCreditDisplay();
     };
 });
