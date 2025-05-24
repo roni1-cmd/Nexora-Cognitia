@@ -2790,9 +2790,20 @@ document.addEventListener('DOMContentLoaded', () => {
             
             const editBtn = messageDiv.querySelector('.edit-btn');
             if (editBtn) {
-                editBtn.addEventListener('click', () => {
+                editBtn.addEventListener('click', async () => {
                     editPromptTextarea.value = message;
-                    currentEditingMessageId = messageContent.dataset.messageId;
+                    // Check if message ID is temporary and wait for the real one
+                    if (messageContent.dataset.messageId.startsWith('temp-')) {
+                        await new Promise(resolve => setTimeout(resolve, 1000));
+                        const savedMessage = allMessages.find(msg => msg.content === message);
+                        if (savedMessage) {
+                            currentEditingMessageId = savedMessage.id;
+                        } else {
+                            currentEditingMessageId = messageContent.dataset.messageId;
+                        }
+                    } else {
+                        currentEditingMessageId = messageContent.dataset.messageId;
+                    }
                     editModal.classList.add('active');
                 });
             }
