@@ -766,17 +766,20 @@
 
     @media (max-width: 768px) {
       .input-area {
-        padding: 8px;
+        padding: 8px 8px 16px; /* Increased bottom padding */
         position: sticky;
         bottom: 0;
         background: var(--background);
-        z-index: 100;
+        z-index: 200; /* Higher z-index to stay above other elements */
+        margin-bottom: env(safe-area-inset-bottom); /* Respect safe area for iOS */
       }
 
       .reference-text {
         font-size: 10px;
         opacity: 0.7;
-        margin-top: 4px;
+        margin-top: 8px; /* Increased margin to avoid overlap */
+        display: block;
+        text-align: center;
       }
     }
 
