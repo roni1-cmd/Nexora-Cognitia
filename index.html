@@ -753,11 +753,14 @@
       color: var(--secondary-text);
       text-align: center;
       margin-top: 8px;
+      margin-bottom: 8px;
     }
 
     .input-area {
       padding: 20px;
       background: var(--background);
+      position: relative;
+      z-index: 2;
     }
 
     .input-container {
@@ -855,7 +858,7 @@
 
     .input-wrapper:focus-within {
       border-color: var(--accent-purple);
-      box-shadow: 0 0 0 3px rgba(156, 77, 255, 0.2);
+      box-shadow: 0 0 0 3px rgba(156, 77, 255, 0.2) !important;
     }
 
     .input-main {
@@ -1002,10 +1005,11 @@
 
       .chat-area {
         padding: 10px;
+        padding-bottom: 0;
       }
 
       .input-area {
-        padding: 10px;
+        padding: 8px 10px 4px;
       }
 
       .welcome-title,
@@ -1039,6 +1043,11 @@
       .header-upgrade button {
         font-size: 13px;
         padding: 5px 10px;
+      }
+
+      .reference-text {
+        margin-top: 4px;
+        margin-bottom: 4px;
       }
     }
 
@@ -1154,6 +1163,7 @@
             </div>
           </div>
         </div>
+        
         <div class="header-upgrade">
           <div class="upgrade-container">
             <button onclick="window.location.href='https://nexora.ai/upgrade'">
