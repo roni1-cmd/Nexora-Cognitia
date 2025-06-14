@@ -89,6 +89,12 @@
       font-size: 24px;
       font-weight: 600;
       color: var(--text);
+      cursor: pointer;
+      transition: color 0.2s ease;
+    }
+
+    .header-title:hover {
+      color: var(--accent-purple);
     }
 
     .header-upgrade {
@@ -98,17 +104,26 @@
       gap: 8px;
     }
 
+    .upgrade-container {
+      background: var(--dropdown-bg);
+      border-radius: 12px;
+      padding: 4px;
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border);
+    }
+
     .header-upgrade button {
       display: flex;
       align-items: center;
       gap: 6px;
       background: transparent;
       border: 2px solid var(--accent-blue);
-      border-radius: 12px;
+      border-radius: 8px;
       padding: 6px 12px;
       color: var(--text);
       font-size: 14px;
       font-weight: 500;
+      font-family: 'Google Sans', sans-serif;
       cursor: pointer;
       transition: background 0.2s ease, color 0.2s ease;
     }
@@ -472,11 +487,13 @@
       padding: 20px;
       overflow-y: hidden;
       position: relative;
+      -webkit-overflow-scrolling: touch;
     }
 
     .chat-area.active {
       overflow-y: auto;
       scrollbar-width: none;
+      -ms-overflow-style: none;
       mask-image: linear-gradient(
         to bottom,
         transparent 0%,
@@ -866,6 +883,11 @@
       min-height: 24px;
       max-height: 200px;
       overflow-y: auto;
+      scrollbar-width: none;
+    }
+
+    #prompt::-webkit-scrollbar {
+      display: none;
     }
 
     #prompt::placeholder {
@@ -1006,6 +1028,18 @@
       .header-upgrade {
         display: none;
       }
+
+      .upgrade-container {
+        background: var(--dropdown-bg);
+        border-radius: 12px;
+        padding: 4px;
+        border: 1px solid var(--border);
+      }
+
+      .header-upgrade button {
+        font-size: 13px;
+        padding: 5px 10px;
+      }
     }
 
     .message-content strong {
@@ -1081,7 +1115,7 @@
     <div class="main-content" id="mainContent">
       <div class="header">
         <div class="header-left">
-          <div class="header-title">nexora</div>
+          <div class="header-title" onclick="startNewChat()">nexora</div>
           <div class="model-selector-container">
             <div class="model-selector" id="modelSelector">
               <span id="selectedModelName">Model nexora Cerebrus-X V3 34B</span>
@@ -1121,10 +1155,12 @@
           </div>
         </div>
         <div class="header-upgrade">
-          <button onclick="window.location.href='https://nexora.ai/upgrade'">
-            <span class="material-icons">keyboard_double_arrow_up</span>
-            Upgrade
-          </button>
+          <div class="upgrade-container">
+            <button onclick="window.location.href='https://nexora.ai/upgrade'">
+              <span class="material-icons">keyboard_double_arrow_up</span>
+              Upgrade
+            </button>
+          </div>
           <img id="profilePicture" class="profile-picture" src="" alt="Profile Picture">
         </div>
       </div>
@@ -1165,10 +1201,10 @@
                 <div class="char-counter" id="charCounter">0/1000</div>
               </div>
             </div>
-            <button class="send-button" onclick="sendPrompt()" id="sendButton">
+            <button class="send-button" id="sendButton">
               <span class="material-icons">send</span>
             </button>
-            <button class="stop-button" onclick="stopResponse()" id="stopButton" style="display: none;">
+            <button class="stop-button" id="stopButton" style="display: none;">
               <span class="material-icons">stop</span>
             </button>
           </div>
@@ -1315,6 +1351,10 @@
       }
     });
 
+    sendButton.addEventListener('click', sendPrompt);
+
+    stopButton.addEventListener('click', stopResponse);
+
     imageUploadButton.addEventListener('click', () => {
       const input = document.createElement('input');
       input.type = 'file';
@@ -1425,7 +1465,7 @@
       inputPreview.classList.add('active');
     }
 
-    function removeFile(index) {
+    window.removeFile = function(index) {
       uploadedFiles.splice(index, 1);
       updatePreview();
       updateButtonStates();
