@@ -24,6 +24,8 @@
       --accent-deep-violet: rgb(106, 0, 255);
       --preview-bg: #1a1a1a;
       --code-bg: #2a2a2a;
+      --modal-button-grey: #4a4a4a;
+      --modal-button-white: #ffffff;
     }
 
     @media (prefers-color-scheme: light) {
@@ -43,6 +45,8 @@
         --accent-deep-violet: rgb(106, 0, 255);
         --preview-bg: #f5f5f5;
         --code-bg: #f5f5f5;
+        --modal-button-grey: #e0e0e0;
+        --modal-button-white: #000000;
       }
     }
 
@@ -192,7 +196,7 @@
       backdrop-filter: blur(12px);
       border-radius: 12px;
       margin-top: 4px;
-      z-index: 10;
+      z-index: 1000;
       max-height: 300px;
       overflow-y: auto;
       scrollbar-width: none;
@@ -275,16 +279,17 @@
     @media (max-width: 768px) {
       .model-dropdown {
         position: fixed;
-        top: auto;
+        top: 0;
         bottom: 0;
         left: 0;
         right: 0;
         width: 100%;
-        height: 70vh;
-        border-radius: 16px 16px 0 0;
+        height: 100vh;
+        border-radius: 0;
         margin: 0;
         transform: translateY(100%);
         transition: transform 0.3s ease-out;
+        z-index: 1000;
       }
 
       .model-dropdown.active {
@@ -305,7 +310,7 @@
       transform: translate(-50%, -50%) scale(0.95);
       background: var(--dropdown-bg);
       backdrop-filter: blur(12px);
-      border: 1px solid var(--accent-blue);
+      border: 1px solid var(--border);
       border-radius: 16px;
       padding: 24px;
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
@@ -326,7 +331,7 @@
     .popup-title {
       font-size: 20px;
       font-weight: 700;
-      color: var(--accent-purple);
+      color: var(--text);
       margin-bottom: 12px;
       display: flex;
       align-items: center;
@@ -334,8 +339,10 @@
     }
 
     .popup-title::before {
-      content: '⚠️';
+      content: 'warning';
+      font-family: 'Material Icons';
       font-size: 20px;
+      color: var(--accent-purple);
     }
 
     .popup-content {
@@ -384,22 +391,24 @@
     }
 
     .popup-button.continue {
-      background: var(--accent-blue);
-      color: var(--text);
+      background: var(--modal-button-grey);
+      color: var(--modal-button-white);
     }
 
     .popup-button.continue:hover {
-      background: var(--accent-rose-pink);
+      background: var(--accent-purple);
       transform: scale(1.05);
     }
 
     .popup-button.cancel {
-      background: var(--input-bg);
-      color: var(--text);
+      background: var(--modal-button-white);
+      color: var(--modal-button-grey);
+      border: 1px solid var(--modal-button-grey);
     }
 
     .popup-button.cancel:hover {
-      background: var(--accent-hot-pink);
+      background: var(--accent-purple);
+      color: var(--modal-button-white);
       transform: scale(1.05);
     }
 
@@ -628,19 +637,6 @@
       align-self: flex-end;
     }
 
-    .message-audio {
-      width: 100%;
-      max-width: 300px;
-      margin-bottom: 12px;
-      border-radius: 8px;
-      background: var(--input-bg);
-      align-self: flex-end;
-    }
-
-    .message-audio::-webkit-media-controls-panel {
-      background-color: var(--input-bg);
-    }
-
     .thinking-process {
       font-style: italic;
       color: var(--text);
@@ -766,18 +762,18 @@
 
     @media (max-width: 768px) {
       .input-area {
-        padding: 8px 8px 24px; /* Further increased bottom padding */
+        padding: 8px 8px 24px;
         position: sticky;
         bottom: 0;
         background: var(--background);
         z-index: 200;
-        margin-bottom: calc(env(safe-area-inset-bottom) + 10px); /* Added extra margin */
+        margin-bottom: calc(env(safe-area-inset-bottom) + 10px);
       }
 
       .reference-text {
         font-size: 10px;
         opacity: 0.7;
-        margin-top: 12px; /* Further increased margin */
+        margin-top: 12px;
         display: block;
         text-align: center;
       }
@@ -819,12 +815,6 @@
       border-radius: 8px;
       object-fit: cover;
       border: 1px solid var(--border);
-    }
-
-    .preview-audio {
-      flex: 1;
-      height: 40px;
-      border-radius: 8px;
     }
 
     .preview-info {
@@ -952,18 +942,6 @@
     .control-button.active {
       color: var(--accent-hot-pink);
       background: rgba(255, 77, 156, 0.1);
-    }
-
-    .control-button.recording {
-      color: var(--accent-magenta);
-      background: rgba(255, 46, 178, 0.2);
-      animation: pulse 1.5s infinite;
-    }
-
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.1); }
-      100% { transform: scale(1); }
     }
 
     .char-counter {
@@ -1143,7 +1121,7 @@
         <p>Best for humorous, non-sensitive contexts. For standard queries, use nexora Cerebrus-X or others.</p>
       </div>
       <div class="popup-buttons">
-        <button class="popup-button cancel" id="rogueMiniCancel">Stick to this model</button>
+        <button class="popup-button cancel" id="rogueMiniCancel">Use Current Model</button>
         <button class="popup-button continue" id="rogueMiniContinue">Proceed with RogueMini</button>
       </div>
     </div>
@@ -1159,7 +1137,7 @@
             </div>
             <div class="model-dropdown" id="modelDropdown">
               <div class="model-option" data-value="accounts/fireworks/models/qwen3-30b-a3b">
-                <div class="model-option-name">nexora Cerebrus-X </div>
+                <div class="model-option-name">nexora Cerebrus-X</div>
                 <div class="model-option-desc">Advanced reasoning for complex problem-solving and logical analysis.</div>
               </div>
               <div class="model-option" data-value="accounts/sentientfoundation-serverless/models/dobby-mini-unhinged-plus-llama-3-1-8b">
@@ -1175,12 +1153,8 @@
                 <div class="model-option-desc">Beautified, eloquent responses with a focus on aesthetic and engaging language.</div>
               </div>
               <div class="model-option" data-value="accounts/fireworks/models/llama4-maverick-instruct-basic">
-                <div class="model-option-name">nexora Casanova Scout </div>
+                <div class="model-option-name">nexora Casanova Scout</div>
                 <div class="model-option-desc">Multimodal model for text and image understanding with superior reasoning.</div>
-              </div>
-              <div class="model-option" data-value="accounts/fireworks/models/streaming-speech">
-                <div class="model-option-name">nexora Resonance</div>
-                <div class="model-option-desc">Speech-to-text transcription and voice interaction capabilities.</div>
               </div>
               <div class="model-option upgrade-option" data-value="upgrade" onclick="window.location.href='https://nexoracog.netlify.app/pricing'">
                 <span class="upgrade-badge">Upgrade</span>
@@ -1193,8 +1167,8 @@
         <div class="header-upgrade">
           <div class="upgrade-container">
             <button onclick="window.location.href='https://nexoracog.netlify.app/pricing'">
-              <span class="material-icons">keyboard_double_arrow_up</span>
-              Upgrade
+              <span class="material-icons">workspace_premium</span>
+              See What You're Getting
             </button>
           </div>
           <img id="profilePicture" class="profile-picture" src="" alt="Profile Picture">
@@ -1226,12 +1200,6 @@
                 <div class="input-controls">
                   <button class="control-button" id="imageUploadButton" title="Upload Image">
                     <span class="material-icons">add_a_photo</span>
-                  </button>
-                  <button class="control-button" id="audioUploadButton" title="Upload Audio">
-                    <span class="material-icons">transcribe</span>
-                  </button>
-                  <button class="control-button" id="microphoneButton" title="Voice Input">
-                    <span class="material-icons">settings_voice</span>
                   </button>
                 </div>
                 <div class="char-counter" id="charCounter">0/1000</div>
@@ -1301,9 +1269,6 @@
     const selectedModelName = document.getElementById('selectedModelName');
     const mainContent = document.getElementById('mainContent');
     const imageUploadButton = document.getElementById('imageUploadButton');
-    const audioUploadButton = document.getElementById('audioUploadButton');
-    const microphoneButton = document.getElementById('microphoneButton');
-    const inputPreview = document.getElementById('inputPreview');
     const rogueMiniPopup = document.getElementById('rogueMiniPopup');
     const rogueMiniContinue = document.getElementById('rogueMiniContinue');
     const rogueMiniCancel = document.getElementById('rogueMiniCancel');
@@ -1314,9 +1279,6 @@
     let previousModelValue = selectedModelValue;
     let previousModelName = 'nexora Cerebrus-X V3 34B';
     let uploadedFiles = [];
-    let isRecording = false;
-    let mediaRecorder = null;
-    let audioChunks = [];
     let conversationHistory = [];
     let currentAbortController = null;
     let hasSeenRogueMiniPopup = false;
@@ -1408,48 +1370,13 @@
             });
             updatePreview();
             selectedModelValue = 'accounts/fireworks/models/llama4-maverick-instruct-basic';
-            selectedModelName.textContent = 'nexora Maverick 17B';
+            selectedModelName.textContent = 'nexora Casanova Scout';
             updateButtonStates();
           };
           reader.readAsDataURL(file);
         });
       };
       input.click();
-    });
-
-    audioUploadButton.addEventListener('click', () => {
-      const input = document.createElement('input');
-      input.type = 'file';
-      input.accept = 'audio/*';
-      input.multiple = true;
-      input.onchange = (e) => {
-        Array.from(e.target.files).forEach(file => {
-          const reader = new FileReader();
-          reader.onload = (event) => {
-            uploadedFiles.push({
-              type: 'audio',
-              data: event.target.result,
-              name: file.name,
-              size: formatFileSize(file.size)
-            });
-            updatePreview();
-            selectedModelValue = 'accounts/fireworks/models/streaming-speech';
-            selectedModelName.textContent = 'nexora Speech 🎤';
-            transcribeUploadedAudio(event.target.result);
-            updateButtonStates();
-          };
-          reader.readAsDataURL(file);
-        });
-      };
-      input.click();
-    });
-
-    microphoneButton.addEventListener('click', async () => {
-      if (!isRecording) {
-        await startRecording();
-      } else {
-        await stopRecording();
-      }
     });
 
     function formatFileSize(bytes) {
@@ -1482,17 +1409,6 @@
               <span class="material-icons" style="font-size: 16px;">close</span>
             </button>
           `;
-        } else if (file.type === 'audio') {
-          previewItem.innerHTML = `
-            <audio src="${file.data}" class="preview-audio" controls></audio>
-            <div class="preview-info">
-              <div class="preview-name">${file.name}</div>
-              <div class="preview-size">${file.size}</div>
-            </div
-            <button class="preview-remove" onclick="removeFile(${index})">
-              <span class="material-icons" style="font-size: 16px;">close</span>
-            </button>
-          `;
         }
         
         inputPreview.appendChild(previewItem);
@@ -1508,132 +1424,9 @@
         updateButtonStates();
       }
       const hasImages = uploadedFiles.some(f => f.type === 'image');
-      const hasAudio = uploadedFiles.some(f => f.type === 'audio');
       
       imageUploadButton.classList.toggle('active', hasImages);
-      audioUploadButton.classList.toggle('active', hasAudio);
       sendButton.disabled = !promptInput.value.trim() && uploadedFiles.length === 0;
-    }
-
-    async function startRecording() {
-      try {
-        selectedModelValue = 'accounts/fireworks/models/streaming-speech';
-        selectedModelName.textContent = 'nexora Speech 🎤';
-        
-        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-        mediaRecorder = new MediaRecorder(stream);
-        audioChunks = [];
-
-        mediaRecorder.ondataavailable = (event) => {
-          audioChunks.push(event.data);
-        };
-
-        mediaRecorder.onstop = async () => {
-          const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
-          const reader = new FileReader();
-          reader.onload = async (event) => {
-            const transcribedText = await transcribeAudio(audioBlob);
-            if (transcribedText) {
-              promptInput.value = transcribedText;
-              promptInput.dataset.isTranscription = 'true';
-              promptInput.dispatchEvent(new Event('input'));
-              promptInput.focus();
-            }
-          };
-          reader.readAsDataURL(audioBlob);
-          stream.getTracks().forEach(track => track.stop());
-        };
-
-        mediaRecorder.start();
-        isRecording = true;
-        microphoneButton.classList.add('recording');
-        microphoneButton.title = 'Stop Recording';
-      } catch (error) {
-        console.error('Error accessing microphone:', error);
-        alert('Could not access microphone. Please check permissions.');
-      }
-    }
-
-    async function stopRecording() {
-      if (mediaRecorder && isRecording) {
-        mediaRecorder.stop();
-        isRecording = false;
-        microphoneButton.classList.remove('recording');
-        microphoneButton.title = 'Voice Input';
-      }
-    }
-
-    async function transcribeAudio(audioBlob) {
-      try {
-        const formData = new FormData();
-        formData.append('file', audioBlob, 'audio.wav');
-        formData.append('model', 'whisper-1');
-
-        const response = await fetch('https://api.fireworks.ai/inference/v1/audio/transcriptions', {
-          method: 'POST',
-          headers: {
-            'Authorization': 'Bearer fw_3ZWXAxAD6BWE4pgQkvkAqem3'
-          },
-          body: formData
-        });
-
-        if (response.ok) {
-          const result = await response.json();
-          return result.text || '';
-        } else {
-          console.error('Transcription failed:', await response.text());
-          return await fallbackSpeechRecognition();
-        }
-      } catch (error) {
-        console.error('Error transcribing audio:', error);
-        return await fallbackSpeechRecognition();
-      }
-    }
-
-    async function transcribeUploadedAudio(audioDataUrl) {
-      try {
-        const response = await fetch(audioDataUrl);
-        const audioBlob = await response.blob();
-        
-        const transcribedText = await transcribeAudio(audioBlob);
-        if (transcribedText) {
-          if (!promptInput.value || promptInput.dataset.isTranscription === 'true') {
-            promptInput.value = transcribedText;
-            promptInput.dataset.isTranscription = 'true';
-            promptInput.dispatchEvent(new Event('input'));
-            promptInput.focus();
-          }
-        }
-      } catch (error) {
-        console.error('Error transcribing uploaded audio:', error);
-      }
-    }
-
-    function fallbackSpeechRecognition() {
-      return new Promise((resolve) => {
-        if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
-          const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-          const recognition = new SpeechRecognition();
-          
-          recognition.continuous = false;
-          recognition.interimResults = false;
-          recognition.lang = 'en-US';
-          
-          recognition.onresult = (event) => {
-            const transcript = event.results[0][0].transcript;
-            resolve(transcript);
-          };
-          
-          recognition.onerror = (event) => {
-            console.error('Speech recognition error:', event.error);
-            resolve('');
-          };
-          
-          recognition.start();
-        } else {
-          resolve('');
-        }
-      });
     }
 
     function startNewChat() {
@@ -1647,7 +1440,6 @@
       updatePreview();
       updateButtonStates();
       promptInput.value = '';
-      promptInput.dataset.isTranscription = 'false';
       promptInput.dispatchEvent(new Event('input'));
       isFirstPrompt = true;
       document.title = 'nexora AI Chat';
@@ -1672,12 +1464,6 @@
             imageElement.className = 'message-image';
             imageElement.alt = file.name;
             messageGroup.appendChild(imageElement);
-          } else if (file.type === 'audio') {
-            const audioElement = document.createElement('audio');
-            audioElement.src = file.data;
-            audioElement.className = 'message-audio';
-            audioElement.controls = true;
-            messageGroup.appendChild(audioElement);
           }
         });
       }
@@ -1836,7 +1622,6 @@
       }
       
       promptInput.value = '';
-      promptInput.dataset.isTranscription = 'false';
       promptInput.style.height = 'auto';
       charCounter.textContent = '0/1000';
       charCounter.style.color = 'var(--secondary-text)';
